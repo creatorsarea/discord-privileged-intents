@@ -14,4 +14,4 @@
 - MEE6 template (example of a complete submission for a custom bot):
   https://help.mee6.xyz/en/articles/729843-how-to-fill-discord-s-privileged-intents-form-for-your-custom-bot
 
-Last checked: 2026-07-27.
+Last checked: 2026-09-08.

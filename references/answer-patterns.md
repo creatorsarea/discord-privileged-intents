@@ -40,9 +40,13 @@ Use cases that are typically accepted: reward roles synced on join or role chang
 
 ## Message Content Intent — « Why do you need the Message Content intent? »
 
+Two things sink this answer more often than anything else.
+
 **Never name prefix commands here, nor anywhere else in the form.** Discord treats "we need to read `!help`" as the case slash commands exist to replace, so it is a denial rather than a justification. See `discord-rules.md` and `SKILL.md` step A bis. Justify the intent only on content the bot must inspect because a member wrote it spontaneously.
 
-> **`<Feature>`**: `<e.g. Auto-moderation: we scan message content for phishing links, invite spam and blacklisted terms, and delete the offending message.>` This cannot be done with slash commands, context menus or modals because `<why the interaction path does not cover it>`.
+**Never justify a moderation feature with what AutoMod already does.** Blocking banned words, invite links or plain spam is native platform behaviour, and Discord says providing what AutoMod supports "is generally not considered a compelling use case for access". A moderation bot earns the intent through the part AutoMod cannot reach, and the answer has to name that part: `<e.g. we score the image attached to a message against a database of known scam screenshots, which no keyword rule can match>`, `<e.g. we correlate identical messages posted across several servers within a few seconds>`. Saying explicitly what AutoMod covers and where it stops is what makes the request look informed rather than lazy.
+
+> **`<Feature>`**: `<what the bot inspects and what it does about it>`. This cannot be done with slash commands, context menus or modals because `<why the interaction path does not cover it>`. `<If the feature is moderation: what AutoMod cannot do here.>`
 
 The second sentence is the one the reviewer weighs, so it has to name the real obstacle. For automod and logging it is usually that the content is written spontaneously by members and never submitted through an interaction. For other use cases it is something else entirely, and copying that phrasing onto a bot it does not describe is worse than writing nothing.
 
@@ -50,7 +54,7 @@ The second sentence is the one the reviewer weighs, so it has to name the real o
 
 ## The "off-platform data" block (identical for all 3 intents)
 
-- **"Are you storing any API Data off-platform?"** — Yes as soon as a Discord ID is written to a database. Do not answer No on the grounds that "they are only IDs".
+- **"Are you storing any API Data off-platform?"** — Yes as soon as a Discord ID is written to a database. Do not answer No on the grounds that "they are only IDs". When the honest answer is No, say so in the justification field too: Discord asks applicants to confirm that data is processed in memory and discarded immediately if it is not stored, and an unexplained No reads as an oversight rather than as a design choice.
 - **"Are you storing API Data for 30 days or less?"** — answer according to the real retention. A No is perfectly acceptable when justified in the text field (e.g. server configuration must persist as long as the bot is installed).
 - **"How do users contact you to request deletion of their activity data?"** —
   > Users can request deletion by `<channel 1: email privacy@..., a ticket on our support server <invite>, the /forgetme command>`. Requests are processed within `<N>` days. Data is also deleted automatically when `<the bot is removed from the server / the account is deleted>`.

@@ -9,10 +9,12 @@ The skill does four things:
 1. **Audits your code** to find out which privileged intents your bot really consumes, and which ones
    it declares at startup without ever using. A requested intent that nothing in the code uses is one
    of the most common denial reasons.
-2. **Keeps you off the known denial paths.** Prefix commands are the big one: Discord's own review
-   checklist asks whether your `!help` could be a slash command, so justifying Message Content with
-   prefix parsing is a refusal by the book. The skill spots it in your code and tells you before a
-   single answer is written.
+2. **Keeps you off the documented denial paths.** Two of them are named in Discord's own docs and
+   sink a lot of submissions: justifying Message Content with prefix commands, when the review
+   checklist asks whether your `!help` could be a slash command, and justifying it with moderation
+   that the AutoMod API already covers, which Discord says "is generally not considered a compelling
+   use case for access". The skill spots both in your code and tells you before a single answer is
+   written.
 3. **Writes the answers** to every field of the form, in the order of the actual form tree, into a
    `discord-intents-request.md` file in your repository. Question and answer pairs only, nothing else,
    so it can be copy-pasted field by field, and re-read next year when Discord asks you to apply again.

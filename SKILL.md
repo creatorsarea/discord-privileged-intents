@@ -30,7 +30,7 @@ Never write a justification without checking what the bot actually consumes.
    - `GuildMembers` → `guildMemberAdd` / `guildMemberRemove` / `guildMemberUpdate` listeners, `guild.members.fetch()` with no argument, iteration over `members.cache`, reliance on an accurate `guild.memberCount`.
    - `GuildPresences` → `presenceUpdate`, `member.presence`, `user.presence`.
    - `MessageContent` → `messageCreate` handlers reading `message.content` / `embeds` / `attachments`, excluding DMs and messages mentioning the bot, which stay readable without the intent.
-   - While reading those `messageCreate` handlers, note separately whether the content is used to **parse a command prefix** (`message.content.startsWith('!')`, a legacy command framework, `command_prefix` in discord.py). See step A bis.
+   - While reading those `messageCreate` handlers, note separately whether the content is used to **parse a command prefix** (`message.content.startsWith('!')`, a legacy command framework, `command_prefix` in discord.py), and whether the moderation it performs is **already covered by the AutoMod API** (keyword lists, keyword presets, spam, mention spam). See step A bis.
 3. Separate what **requires** the intent from what goes through REST:
    - `members.fetch(id)`, `fetchMe()`, `guild.members.search()` → **REST, no intent required**.
    - Member data received inside an interaction (slash command, button, modal) → **no intent required**.
@@ -40,9 +40,13 @@ Never write a justification without checking what the bot actually consumes.
 
 Official alternatives to suggest when an intent is not indispensable: see `references/discord-rules.md`, section "What is still possible WITHOUT an intent".
 
-### Step A bis — Prefix commands are a denial, not a justification
+### Step A bis — The two documented dead ends
 
-If the audit finds that message content is read to parse a command prefix, this must never appear in the form as a reason to need the intent, and the user has to be told before anything is written.
+Two use cases are named in Discord's own documentation as things that do not earn the intent. Neither may appear in the form as a reason to need it, and the user has to be told before anything is written.
+
+#### Prefix commands
+
+If the audit finds that message content is read to parse a command prefix, this is the textbook denial.
 
 Discord names this case explicitly. Its review checklist asks "Is my bot using prefix commands (`!help`, `?play`) that could be migrated to slash commands?", and it calls migrating text commands to slash commands "the most common reason developers request the Message Content privileged intent". Slash commands are the documented, supported replacement, so a request resting on prefix parsing is refused on the grounds that the alternative already exists.
 
@@ -53,6 +57,15 @@ What to do, depending on the audit:
 
 Same rule for Q1: describing the bot as driven by `!` commands undermines the whole submission. Q1 describes what the app does, so name the features, not the prefix syntax used to reach them.
 
+#### Moderation that AutoMod already does
+
+Discord states that providing "what the AutoMod API already supports is generally not considered a compelling use case for access". AutoMod natively blocks keyword lists, keyword presets, spam and mention spam, so blocked words, invite links and obvious spam are not arguments, whatever the bot's own implementation is worth.
+
+For every moderation feature found in step A, ask what AutoMod cannot do in its place: inspecting images or attachments, correlating messages across servers, reputation lookups on links, anything that depends on context rather than on matching a string. That gap is the justification, and it has to be written out.
+
+- **AutoMod covers the whole feature** → say so to the user and recommend AutoMod rules instead of the intent.
+- **The feature goes beyond AutoMod** → justify on the gap, and name AutoMod explicitly to show it was considered. A reviewer who sees the boundary spelled out reads an informed request.
+
 ### Step B — Map the stored data
 
 The form asks the same "off-platform" questions three times. Answers must be factual and taken from the actual database schema:
@@ -61,6 +74,7 @@ The form asks the same "off-platform" questions three times. Answers must be fac
 - **Retention**: more than 30 days, or 30 days or less? Answer according to reality, not according to what sounds better.
 - **Encryption at rest**: verify it for real (provider disk encryption, KMS, encrypted columns). TLS in transit is not encryption at rest.
 - **Deletion channel**: bot command, privacy email, support form, support server. Give the exact address or URL.
+- **If nothing is persisted**, confirm it: Discord asks applicants to state that the data is processed in memory and discarded immediately when it is not stored. A bare No leaves the reviewer guessing.
 
 Note that storing a bare member `discord_id` **is** storing API data.
 
@@ -68,6 +82,8 @@ Note that storing a bare member `discord_id` **is** storing API data.
 
 - A justification is a **named feature + the precise data consumed + why the REST or interaction alternative is not enough**. "My bot needs message content" is close to an automatic denial.
 - Stay factual and verifiable: these answers are also the basis for next year's re-application.
+- **Only request what you need**, and justify each intent separately. A weak third intent drags down the two solid ones, since the submission is reviewed as a whole.
+- Leave no field blank or vague. Discord warns that an unclear or incomplete submission "may result in review delays or denial of your request".
 - Evidence: screenshots or videos hosted at a public, stable URL. One capture per use case, showing the feature in action, annotated.
 - Privacy policy: public URL, reachable without an account, explicitly covering the Discord data collected, the retention and the deletion channel.
 

@@ -17,16 +17,21 @@ Not privileged and often confused with these: `GUILD_MESSAGES` (receiving the `m
 - `GET /guilds/{id}/members/search`, search by username.
 - The full `member` object is provided in **every interaction** (slash command, button, select, modal, context menu).
 - `approximate_member_count` on the Guild object with `with_counts=true`.
+- `Get User` for basic profile data (username, avatar) when no guild-specific member data is needed.
 - Enough when: only targeted lookups are needed, no enumeration and no real-time events.
 
 ### Without Presence
 - `approximate_presence_count` on the Guild object (approximate number of online members).
+- `Get User` for a user's basic profile information.
+- **Setting the bot's own status or activity does not require the intent.** This is a frequent misunderstanding: `GUILD_PRESENCES` is about reading other people's presence, not about publishing your own.
 - Enough when: displaying a presence counter rather than tracking individuals.
 
 ### Without Message Content
 - Slash commands (arguments already parsed), context menu commands (the targeted message is provided **with** its content), buttons and selects, modals.
-- Content stays readable in **DMs**, in messages that **mention the bot**, and in messages **sent by the bot itself**.
+- Content stays readable in **DMs**, in messages that **mention the bot**, in **replies to the bot's messages**, and in messages **sent by the bot itself**.
 - Enough when: user input goes through structured interactions.
+
+**AutoMod covers a large part of moderation, and Discord expects you to use it.** The docs state that providing "what the AutoMod API already supports is generally not considered a compelling use case for access". AutoMod natively handles keyword filters, keyword presets, spam and mention spam, so a bot that asks for Message Content to block banned words, invite links or obvious spam is asking for something the platform already gives it. A moderation use case only justifies the intent through what AutoMod cannot do, and the justification has to say which part that is.
 
 **Prefix commands are the one case Discord names explicitly.** Its review checklist asks "Is my bot using prefix commands (`!help`, `?play`) that could be migrated to slash commands?", and calls migrating text commands to slash commands "the most common reason developers request the Message Content privileged intent". Slash commands are presented as the direct replacement. So reading message content in order to parse a command prefix is not a justification, it is the textbook denial: the alternative is documented, supported and expected. A bot whose only use of the content is prefix parsing should migrate rather than apply.
 
@@ -38,6 +43,9 @@ Not privileged and often confused with these: `GUILD_MESSAGES` (receiving the `m
 4. Use case not compliant with the Developer Policy or Terms (scraping, reselling data, training models on user content without a clear legal basis).
 5. Intent requested but not used in the code.
 6. Message Content requested to parse prefix commands (`!help`, `?play`), which slash commands replace.
+7. Moderation use case that duplicates what the AutoMod API already does.
+8. Requesting several intents at once when only one is justified. Discord's guidance is to "only request what you need" and to justify each intent on its own.
+9. Submission that is unclear or incomplete. Discord warns that this "may result in review delays or denial of your request", so an unanswered field is a risk in itself, not a neutral blank.
 
 ## Consequences
 
