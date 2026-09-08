@@ -64,6 +64,6 @@ The second sentence is the one the reviewer weighs, so it has to name the real o
 
 ## « Please provide links to screenshots and/or videos »
 
-> `<url>` — `<intent>` / `<feature>`: `<what the capture shows>`
+> `<url>` for `<feature>`: `<what the capture shows>`
 
 One line per capture, with a stable public URL. The URL stays as `` `<url>` `` until the user provides the real link, and every such line must also appear in the reply to the user as a capture to take. Check that the links open in a private window.
