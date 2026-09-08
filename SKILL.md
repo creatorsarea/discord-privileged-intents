@@ -19,7 +19,23 @@ Sources: `references/sources.md`.
 
 ## 2. Execution procedure
 
-Run these steps in order. Steps A to C produce the material, step D produces the file, step E is what the user reads.
+Run these steps in order. Step 0 is the freshness check, steps A to C produce the material, step D produces the file, step E is what the user reads.
+
+### Step 0 — Check the skill is current
+
+This skill describes a form that Discord changes without notice, and its field tree was mapped by hand. A stale copy does not merely go vague, it produces fields that no longer exist. So before anything else, compare the local `VERSION` file with the published one:
+
+```bash
+curl -fsS --max-time 5 https://raw.githubusercontent.com/creatorsarea/discord-privileged-intents/main/VERSION
+```
+
+Compare it with the `VERSION` file sitting next to this `SKILL.md`.
+
+- **Same value, or the request failed** → say nothing and carry on. No network, a proxy, a firewall or a rate limit are all normal, and none of them is a reason to interrupt the user's task. This check fails open, always.
+- **The published value is newer** → tell the user before starting the audit, in one line: the skill is out of date, the form tree may have moved since, and here is how to update. Then ask whether to update now or carry on with the local version. Do not update on your own, and do not refuse to work with an old copy.
+
+The update is a `git pull` in the directory holding this `SKILL.md`. If that directory is not a git repository, the skill was installed by copying files rather than by cloning, and the fix is to re-clone it from the URL above.
+
 
 ### Step A — Audit the code BEFORE writing anything
 

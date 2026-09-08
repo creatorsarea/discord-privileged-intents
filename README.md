@@ -43,6 +43,22 @@ git clone https://github.com/creatorsarea/discord-privileged-intents.git \
 The layout is the standard one, so it works with any agent that reads `SKILL.md` skills, not only
 Claude Code.
 
+## Staying up to date
+
+Discord changes the form without notice, and the field tree in here was mapped by hand, so an old copy is
+actively misleading rather than merely incomplete. On each run the skill compares its local `VERSION` file
+with the one published here, and warns you if yours is behind. It asks before doing anything, and never
+updates on its own.
+
+That check is a single request to `raw.githubusercontent.com`. It fails open: no network, a proxy or a
+firewall simply skips it, and your task carries on. Nothing about your code or your bot leaves the machine.
+
+To update:
+
+```bash
+git -C ~/.claude/skills/discord-privileged-intents pull
+```
+
 ## Use
 
 Open the agent in the repository of the bot you are applying for, then ask for it:
@@ -63,6 +79,7 @@ re-application, or an intent denial come up.
 | `references/discord-rules.md` | What each intent unlocks, what REST alternatives cover without it, common denial reasons |
 | `references/answer-patterns.md` | Reusable phrasing per intent and per question |
 | `references/sources.md` | Discord's official documentation on the review |
+| `VERSION` | Release date of this copy, used by the freshness check |
 
 ## Accuracy
 
