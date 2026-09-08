@@ -28,6 +28,8 @@ Not privileged and often confused with these: `GUILD_MESSAGES` (receiving the `m
 - Content stays readable in **DMs**, in messages that **mention the bot**, and in messages **sent by the bot itself**.
 - Enough when: user input goes through structured interactions.
 
+**Prefix commands are the one case Discord names explicitly.** Its review checklist asks "Is my bot using prefix commands (`!help`, `?play`) that could be migrated to slash commands?", and calls migrating text commands to slash commands "the most common reason developers request the Message Content privileged intent". Slash commands are presented as the direct replacement. So reading message content in order to parse a command prefix is not a justification, it is the textbook denial: the alternative is documented, supported and expected. A bot whose only use of the content is prefix parsing should migrate rather than apply.
+
 ## Common denial reasons
 
 1. Generic or non-specific justification ("my bot needs it").
@@ -35,6 +37,7 @@ Not privileged and often confused with these: `GUILD_MESSAGES` (receiving the `m
 3. Incomplete submission: no screenshots, no privacy policy, vague answers about retention.
 4. Use case not compliant with the Developer Policy or Terms (scraping, reselling data, training models on user content without a clear legal basis).
 5. Intent requested but not used in the code.
+6. Message Content requested to parse prefix commands (`!help`, `?play`), which slash commands replace.
 
 ## Consequences
 

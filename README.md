@@ -4,15 +4,19 @@ An agent skill that helps you fill in Discord's **Request Intents** form: the re
 through to keep the privileged gateway intents (Server Members, Presence, Message Content) once your
 app reaches 10,000 unique users.
 
-The skill does three things:
+The skill does four things:
 
 1. **Audits your code** to find out which privileged intents your bot really consumes, and which ones
    it declares at startup without ever using. A requested intent that nothing in the code uses is one
    of the most common denial reasons.
-2. **Writes the answers** to every field of the form, in the order of the actual form tree, into a
+2. **Keeps you off the known denial paths.** Prefix commands are the big one: Discord's own review
+   checklist asks whether your `!help` could be a slash command, so justifying Message Content with
+   prefix parsing is a refusal by the book. The skill spots it in your code and tells you before a
+   single answer is written.
+3. **Writes the answers** to every field of the form, in the order of the actual form tree, into a
    `discord-intents-request.md` file in your repository. Question and answer pairs only, nothing else,
    so it can be copy-pasted field by field, and re-read next year when Discord asks you to apply again.
-3. **Tells you which screenshots to take.** Each capture the form needs is left as a `<url>`
+4. **Tells you which screenshots to take.** Each capture the form needs is left as a `<url>`
    placeholder in the file, and listed in the agent's reply so you know exactly what to display and
    capture. Send the links back and the placeholders get filled in.
 

@@ -30,6 +30,7 @@ Never write a justification without checking what the bot actually consumes.
    - `GuildMembers` → `guildMemberAdd` / `guildMemberRemove` / `guildMemberUpdate` listeners, `guild.members.fetch()` with no argument, iteration over `members.cache`, reliance on an accurate `guild.memberCount`.
    - `GuildPresences` → `presenceUpdate`, `member.presence`, `user.presence`.
    - `MessageContent` → `messageCreate` handlers reading `message.content` / `embeds` / `attachments`, excluding DMs and messages mentioning the bot, which stay readable without the intent.
+   - While reading those `messageCreate` handlers, note separately whether the content is used to **parse a command prefix** (`message.content.startsWith('!')`, a legacy command framework, `command_prefix` in discord.py). See step A bis.
 3. Separate what **requires** the intent from what goes through REST:
    - `members.fetch(id)`, `fetchMe()`, `guild.members.search()` → **REST, no intent required**.
    - Member data received inside an interaction (slash command, button, modal) → **no intent required**.
@@ -38,6 +39,19 @@ Never write a justification without checking what the bot actually consumes.
 5. **Flag every intent that is declared at startup but has no real consumer in the code.** This is a finding the user must see: a superfluous request weakens the whole submission and is a common denial reason. Recommend removing it from the code rather than requesting it.
 
 Official alternatives to suggest when an intent is not indispensable: see `references/discord-rules.md`, section "What is still possible WITHOUT an intent".
+
+### Step A bis — Prefix commands are a denial, not a justification
+
+If the audit finds that message content is read to parse a command prefix, this must never appear in the form as a reason to need the intent, and the user has to be told before anything is written.
+
+Discord names this case explicitly. Its review checklist asks "Is my bot using prefix commands (`!help`, `?play`) that could be migrated to slash commands?", and it calls migrating text commands to slash commands "the most common reason developers request the Message Content privileged intent". Slash commands are the documented, supported replacement, so a request resting on prefix parsing is refused on the grounds that the alternative already exists.
+
+What to do, depending on the audit:
+
+- **Prefix parsing is the only use of message content** → do not fill in the form. Report that the intent is not obtainable for this use case, and that the way out is migrating the commands to application commands.
+- **The bot has other genuine uses** (automod, logging, scam detection, triggers on spontaneous messages) → justify the intent on those alone, and **leave the prefix commands out of the answers entirely**. Mentioning them weakens an otherwise valid request, since it hands the reviewer a use case they are told to refuse.
+
+Same rule for Q1: describing the bot as driven by `!` commands undermines the whole submission. Q1 describes what the app does, so name the features, not the prefix syntax used to reach them.
 
 ### Step B — Map the stored data
 

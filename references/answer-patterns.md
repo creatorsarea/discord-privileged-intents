@@ -10,7 +10,7 @@ The deliverable contains **question/answer pairs only**, answers in blockquotes:
 
 Three blocks, 150 to 400 words:
 1. One positioning sentence: who publishes the bot, for which audience, on how many servers.
-2. A bullet list of the main features (named as they appear in the bot's UI or public documentation).
+2. A bullet list of the main features (named as they appear in the bot's UI or public documentation), described by what they do rather than by the syntax used to trigger them. Do not write out prefix commands such as `!help`: it points the reviewer at the use case they are instructed to refuse.
 3. One sentence on the data model: what is stored and why.
 
 > `<Bot name>` is the official Discord bot of `<product / brand>`, used by `<N>` communities to `<value delivered>`. Its main features are:
@@ -39,6 +39,8 @@ Use cases that are typically accepted: reward roles synced on join or role chang
 "Can users opt-out of having their Presence data tracked?" → answer Yes only if a real mechanism exists (command, dashboard setting, role-based opt-in), and describe it in the justification field.
 
 ## Message Content Intent — « Why do you need the Message Content intent? »
+
+**Never name prefix commands here, nor anywhere else in the form.** Discord treats "we need to read `!help`" as the case slash commands exist to replace, so it is a denial rather than a justification. See `discord-rules.md` and `SKILL.md` step A bis. Justify the intent only on content the bot must inspect because a member wrote it spontaneously.
 
 > **`<Feature>`**: `<e.g. Auto-moderation: we scan message content for phishing links, invite spam and blacklisted terms, and delete the offending message.>` This cannot be done with slash commands, context menus or modals because `<why the interaction path does not cover it>`.
 
