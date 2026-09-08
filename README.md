@@ -41,7 +41,19 @@ git clone https://github.com/creatorsarea/discord-privileged-intents.git \
 ```
 
 The layout is the standard one, so it works with any agent that reads `SKILL.md` skills, not only
-Claude Code.
+Claude Code. Only the destination directory changes: `~/.claude/skills/` and `.claude/skills/` are
+where Claude Code looks, and other agents have their own conventions.
+
+If you would rather not look yours up, hand the job to the agent itself:
+
+```
+Install this skill for yourself: https://github.com/creatorsarea/discord-privileged-intents
+Clone it into the directory you load skills from, then confirm you can see it.
+```
+
+It knows where its own skills live, and the last sentence is what makes it verify rather than
+assume: a skill cloned into the wrong directory fails silently, since nothing announces that a
+skill was not found.
 
 ## Staying up to date
 
