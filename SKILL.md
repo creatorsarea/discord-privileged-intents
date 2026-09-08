@@ -68,15 +68,24 @@ For every moderation feature found in step A, ask what AutoMod cannot do in its 
 
 ### Step B — Map the stored data
 
-The form asks the same "off-platform" questions three times. Answers must be factual and taken from the actual database schema:
+The form asks the same "off-platform" questions three times. Answers must be factual and taken from the actual database schema, and from everywhere else the data lands:
 
 - Which data coming from the intent is **persisted outside Discord** (IDs, usernames, message content, presences)?
 - **Retention**: more than 30 days, or 30 days or less? Answer according to reality, not according to what sounds better.
 - **Encryption at rest**: verify it for real (provider disk encryption, KMS, encrypted columns). TLS in transit is not encryption at rest.
 - **Deletion channel**: bot command, privacy email, support form, support server. Give the exact address or URL.
-- **If nothing is persisted**, confirm it: Discord asks applicants to state that the data is processed in memory and discarded immediately when it is not stored. A bare No leaves the reviewer guessing.
+- **If nothing is persisted**, confirm it: Discord asks applicants to state that the data is processed in memory and discarded immediately when it is not stored. A No closes the whole branch of the form, so there is nowhere left to explain it. Put the sentence in the `« Why do you need the <X> intent? »` textarea instead, the only free field of the section. A bare No reads as an oversight, or as something being hidden.
 
 Note that storing a bare member `discord_id` **is** storing API data.
+
+**"In memory" is narrower than it sounds, and the database is not the only place to look.** Before answering No, check the paths that write the data somewhere without anyone thinking of it as storage:
+
+- **Application logs.** A `console.log` or a logger call that includes `message.content`, a username or a user ID writes API data to disk, and to any external log service the output is shipped to.
+- **Error reporting** (Sentry and equivalents). A message captured in the context of an exception leaves the server and is retained by a third party.
+- **Persisted caches.** A Redis with an append-only file or snapshots, a queue that survives a restart, a file-backed cache.
+- **Backups and analytics** built on top of any of the above.
+
+Processing in memory means the data lives in the scope of a function and disappears with it, without touching a disk or a third party. Grep for the intent's data in the logging and error-reporting call sites, not only in the schema. This claim is re-committed to at every yearly re-application, so it must be true rather than convenient.
 
 ### Step C — Write the answers
 

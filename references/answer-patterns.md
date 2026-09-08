@@ -54,7 +54,7 @@ The second sentence is the one the reviewer weighs, so it has to name the real o
 
 ## The "off-platform data" block (identical for all 3 intents)
 
-- **"Are you storing any API Data off-platform?"** — Yes as soon as a Discord ID is written to a database. Do not answer No on the grounds that "they are only IDs". When the honest answer is No, say so in the justification field too: Discord asks applicants to confirm that data is processed in memory and discarded immediately if it is not stored, and an unexplained No reads as an oversight rather than as a design choice.
+- **"Are you storing any API Data off-platform?"** — Yes as soon as a Discord ID is written to a database. Do not answer No on the grounds that "they are only IDs". When the honest answer is No, say so in the justification field too: Discord asks applicants to confirm that data is processed in memory and discarded immediately if it is not stored, and an unexplained No reads as an oversight rather than as a design choice. Check the logs, the error reporting and the persisted caches before claiming it, not only the schema: see `SKILL.md` step B.
 - **"Are you storing API Data for 30 days or less?"** — answer according to the real retention. A No is perfectly acceptable when justified in the text field (e.g. server configuration must persist as long as the bot is installed).
 - **"How do users contact you to request deletion of their activity data?"** —
   > Users can request deletion by `<channel 1: email privacy@..., a ticket on our support server <invite>, the /forgetme command>`. Requests are processed within `<N>` days. Data is also deleted automatically when `<the bot is removed from the server / the account is deleted>`.
