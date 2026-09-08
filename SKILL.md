@@ -61,7 +61,7 @@ Note that storing a bare member `discord_id` **is** storing API data.
 
 Produce a `discord-intents-request.md` file **in the project repository** (not in a scratch directory). The format is strict: **question/answer pairs only**, in the order of the form tree. The file must read like the form itself, field by field, and be copy-pasteable without edits. This is the file that will be re-read and amended next year.
 
-**Required format:**
+**Required format** (shown below with a public privacy policy and off-platform storage, so the Yes branches of `references/form-tree.md` are the ones displayed; produce whichever branch the audit actually supports, and a No hides the fields under it):
 
 ```markdown
 # Discord Request Intents

@@ -21,7 +21,7 @@ Three blocks, 150 to 400 words:
 
 ## Q2 — Privacy Policy
 
-- "Where is your Privacy Policy available?" → describe the location, not just the URL: *"On our public website, linked from the bot's Discord App Directory listing and from the `/help` command."*
+- "Where is your Privacy Policy available?" → describe the location, not just the URL, and name only the places where it is really reachable: *"On our public website, linked from `<the bot's App Directory listing, the /help command, the dashboard footer, ...>`."*
 - "Please share a link" → direct, public URL, no authentication.
 
 ## Server Members Intent — « Why do you need the Guild Members intent? »
@@ -40,7 +40,9 @@ Use cases that are typically accepted: reward roles synced on join or role chang
 
 ## Message Content Intent — « Why do you need the Message Content intent? »
 
-> **`<Feature>`**: `<e.g. Auto-moderation: we scan message content for phishing links, invite spam and blacklisted terms, and delete the offending message.>` This cannot be done with slash commands, context menus or modals because the content we need to inspect is written spontaneously by members, not submitted through an interaction.
+> **`<Feature>`**: `<e.g. Auto-moderation: we scan message content for phishing links, invite spam and blacklisted terms, and delete the offending message.>` This cannot be done with slash commands, context menus or modals because `<why the interaction path does not cover it>`.
+
+The second sentence is the one the reviewer weighs, so it has to name the real obstacle. For automod and logging it is usually that the content is written spontaneously by members and never submitted through an interaction. For other use cases it is something else entirely, and copying that phrasing onto a bot it does not describe is worse than writing nothing.
 
 "Will the message content data be used to train machine learning or AI Models?" → answer No if that is the case; if Yes, explain precisely in the justification (purpose, anonymisation, legal basis, opt-out).
 
@@ -50,6 +52,8 @@ Use cases that are typically accepted: reward roles synced on join or role chang
 - **"Are you storing API Data for 30 days or less?"** — answer according to the real retention. A No is perfectly acceptable when justified in the text field (e.g. server configuration must persist as long as the bot is installed).
 - **"How do users contact you to request deletion of their activity data?"** —
   > Users can request deletion by `<channel 1: email privacy@..., a ticket on our support server <invite>, the /forgetme command>`. Requests are processed within `<N>` days. Data is also deleted automatically when `<the bot is removed from the server / the account is deleted>`.
+
+  The last sentence goes in only if such an automatic deletion actually exists in the code. Drop it otherwise, rather than promising a cleanup that never runs.
 - **"Are you encrypting the data that you store at rest?"** — Yes only if verified (provider disk or volume encryption, encrypted columns, KMS). TLS in transit does not count.
 
 ## « Please provide links to screenshots and/or videos »
