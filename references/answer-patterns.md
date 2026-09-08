@@ -2,6 +2,8 @@
 
 These templates are **skeletons to fill in with facts verified in the code**, never to copy as they are. Every `<...>` must disappear.
 
+The prose around the placeholders is an example too, not a formula. Bots differ: some have a dashboard and some do not, some store nothing beyond a guild ID. Keep a sentence only if it is true of the bot being audited, and drop or rewrite it otherwise. A claim that does not match the app is worse than a missing one, since the reviewer checks the answers against the bot.
+
 The deliverable contains **question/answer pairs only**, answers in blockquotes: see the required format in `SKILL.md`, step D. Anything that is not an answer to a form field (audit, checklist, TODO, warnings) is told to the user, not written in the file.
 
 ## Q1 — What does your application do?
@@ -15,7 +17,7 @@ Three blocks, 150 to 400 words:
 > - `<feature 1>`: `<what the user sees>`
 > - `<feature 2>`: ...
 >
-> The bot is configured through slash commands and a web dashboard. It stores only the configuration data required to deliver these features (`<list: guild IDs, channel IDs, ...>`).
+> The bot is configured through `<how it is actually configured: slash commands, a web dashboard, a config file, ...>`. It stores only the configuration data required to deliver these features (`<list: guild IDs, channel IDs, ...>`).
 
 ## Q2 — Privacy Policy
 
