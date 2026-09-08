@@ -118,32 +118,40 @@ Produce a `discord-intents-request.md` file **in the project repository** (not i
 
 **Required format** (shown below with a public privacy policy and off-platform storage, so the Yes branches of `references/form-tree.md` are the ones displayed; produce whichever branch the audit actually supports, and a No hides the fields under it):
 
-```markdown
+````markdown
 # Discord Request Intents
 
-Requested intents: **<Intent Name>** (`GatewayIntentBits.<X>`) and **<Intent Name>** (`GatewayIntentBits.<Y>`).
+Requested intents: **<Intent Name>** (`GatewayIntentBits.<X>`).
 
 ---
 
 ## Q1. What does your application do?
 
-> <answer>
+```
+<answer>
+```
 
 ---
 
 ## Q2. Privacy Policy
 
-**Do you have a public Privacy Policy?**
+**Do you have a public Privacy Policy telling your users about their data usage?**
 
-> Yes
+```
+Yes
+```
 
 **Where is your Privacy Policy available?**
 
-> <answer>
+```
+<answer>
+```
 
 **Please share a link to your Privacy Policy.**
 
-> <URL>
+```
+<URL>
+```
 
 ---
 
@@ -151,19 +159,24 @@ Requested intents: **<Intent Name>** (`GatewayIntentBits.<X>`) and **<Intent Nam
 
 ### « <exact field label> »
 
-> <answer>
+```
+<answer>
+```
 
 ### « Are you storing any API Data off-platform (outside of Discord)? »
 
-> Yes
 ```
+Yes
+```
+````
 
 **Rules:**
 
 - **No em dash or en dash** (`—`, `–`), neither in the answers nor in the headings. It reads as generated text, and these answers must read as written by the team. Use a period, a colon, a comma or parentheses instead. Same for other generated-writing tics: no "it's not just X, it's Y", no decorative emphasis.
-- Every answer is a **blockquote** (`>`), including the Yes/No of the selects.
+- Every answer sits in a **fenced code block**, including the Yes/No of the selects. The form's fields are plain textareas, so a fence shows exactly what will be pasted and gives a copy button on GitHub. Headings and field labels stay outside the fences, as ordinary markdown.
+- **No markdown inside an answer.** A textarea renders nothing, so `**bold**` and `` `backticks` `` arrive as literal asterisks and backticks in the submission. Write plain sentences, and introduce a sub-part with a plain lead-in line ending in a colon rather than with bold.
 - Intent block field labels are copied **verbatim from the form**, in guillemets (`### « … »`). Q1 and Q2 keep their numbering.
-- **A select has no text field attached.** `Are you storing … off-platform?`, `… for 30 days or less?`, `Can users opt-out?`, `… train AI Models?`, `… encrypting at rest?` are bare Yes/No: the form offers nowhere to paste a justification. Never write a second explanatory blockquote under a select, it would have nowhere to go. Anything that needs justifying (what is stored, where, why retention exceeds 30 days) belongs in the `« Why do you need the <X> intent? »` textarea, the only free-text field of the section, under a dedicated subheading such as `**What we keep from this intent.**`.
+- **A select has no text field attached.** `Are you storing … off-platform?`, `… for 30 days or less?`, `Can users opt-out?`, `… train AI Models?`, `… encrypting at rest?` are bare Yes/No: the form offers nowhere to paste a justification. Never write a second explanatory block under a select, it would have nowhere to go. Anything that needs justifying (what is stored, where, why retention exceeds 30 days) belongs in the `« Why do you need the <X> intent? »` textarea, the only free-text field of the section, introduced by a plain lead-in line such as `What we keep from this intent:`.
 - `---` separator between top-level sections (Q1, Q2, each intent).
 - **Nothing else in the file**: no audit table, no submission checklist, no internal note, no `TODO`, no warning. The step A audit and any blocking points are reported **in the reply to the user**, not in the deliverable.
 - The only `<...>` placeholders left in the file are the **screenshot URLs the user still has to provide**, left as `` `<url>` `` inside the caption line, which is already written out.
